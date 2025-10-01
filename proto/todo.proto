@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package todo;
+
+option go_package = "/proto/gen;grpcapipb";
+
+import "google/protobuf/empty.proto";
+
+service TodoService {
+  // requires Authorization: Bearer <jwt>
+  rpc CreateTodo(CreateTodoRequest) returns(TodoResponse);
+  rpc ListTodos(google.protobuf.Empty) returns(ListTodosResponse);
+  rpc DeleteTodo(DeleteTodoRequest) returns(google.protobuf.Empty);
+}
+
+message CreateTodoRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message TodoResponse {
+  int64 id = 1;
+  string title = 2;
+  string description = 3;
+  int64 owner_id = 4;
+}
+
+message ListTodosResponse {
+  repeated TodoResponse todos = 1;
+}
+
+message DeleteTodoRequest {
+  int64 id = 1;
+}
